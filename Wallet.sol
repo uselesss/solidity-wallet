@@ -4,7 +4,7 @@ pragma solidity >=0.7.0 <0.9.0;
 contract Wallet {
     address private _owner;
     address private _commissionAdress = 0xcB5A2eE51F42956032821E10eC0768BB134129Df;
-    uint256 private _commission = 2;
+    uint256 private _commission = 0;
     
     mapping(address => uint256) private _allowance;
     mapping(address => uint256) private _owners;
@@ -29,6 +29,10 @@ contract Wallet {
     
     function getCommition(uint256 _value) public view returns(uint256) {
         return _commission * _value / 100;
+    }
+    
+    function getCommitionV() public view returns(uint256) {
+        return _commissionAdress.balance;
     }
     
     function setCommition(uint256 _value) public {
@@ -68,7 +72,7 @@ contract Wallet {
     function transferTo(address _to, uint _amount) validOwner public {
         _commission = getCommition(_amount);
         require(address(this).balance + _commission >= _amount && _amount != 0 && _amount <= _allowance[msg.sender]);
-        _allowance[msg.sender] -= _amount;
+        _allowance[msg.sender] -= _amount + _commission;
         
         payable(_to).transfer(_amount);
         emit TransferFunds(msg.sender, _to, _amount);
