@@ -31,10 +31,6 @@ contract Wallet {
         return _commission * _value / 100;
     }
     
-    function getCommitionV() public view returns(uint256) {
-        return _commissionAdress.balance;
-    }
-    
     function setCommition(uint256 _value) public {
         if (_value > 0) {
             _commission = _value;
