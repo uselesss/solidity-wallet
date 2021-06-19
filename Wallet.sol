@@ -27,11 +27,11 @@ contract Wallet {
     event WithdrawFunds(address to, uint amount);
     event TransferFunds(address from, address to, uint amount);
     
-    function getCommition(uint256 _value) public view returns(uint256) {
+    function getCommission(uint256 _value) public view returns(uint256) {
         return _commission * _value / 100;
     }
     
-    function setCommition(uint256 _value) public {
+    function setCommission(uint256 _value) public {
         if (_value > 0) {
             _commission = _value;
         }
@@ -55,7 +55,7 @@ contract Wallet {
     } 
     
     function withdraw(uint256 _amount) validOwner public {
-        _commission = getCommition(_amount);
+        _commission = getCommission(_amount);
         require(address(this).balance + _commission >= _amount);
         
         payable(msg.sender).transfer(_amount);
@@ -66,7 +66,7 @@ contract Wallet {
     }
     
     function transferTo(address _to, uint _amount) validOwner public {
-        _commission = getCommition(_amount);
+        _commission = getCommission(_amount);
         require(address(this).balance + _commission >= _amount && _amount != 0 && _amount <= _allowance[msg.sender]);
         _allowance[msg.sender] -= _amount + _commission;
         
