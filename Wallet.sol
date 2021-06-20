@@ -49,7 +49,7 @@ contract Wallet {
         emit DepositFunds(msg.sender, msg.value);
     }
     
-    function approve(uint256 _value) public returns (bool success) {
+    function approve(uint256 _value) validOwner public returns (bool success) {
         _allowance[msg.sender] = _value;
         return true;
     } 
