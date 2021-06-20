@@ -28,13 +28,13 @@ contract Wallet {
     event TransferFunds(address from, address to, uint amount);
     
     function getCommission(uint256 _value) public view returns(uint256) {
+        require (_value > 0);
         return _commission * _value / 100;
     }
     
     function setCommission(uint256 _value) public {
-        if (_value > 0) {
-            _commission = _value;
-        }
+        require (_value > 0);
+        _commission = _value;
     }
     
     function addOwner(address owner) isOwner public {
